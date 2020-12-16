@@ -31,23 +31,31 @@ const fillDragBoard = (ShipArray, dragBoard) => {
     return dragBoard
 }
 
-const ShipDirectionRandomser = (ship) => {
+const randomiseShipDirection = (ship) => {
     let random = Math.abs(Math.floor(Math.random() * 2))
     let directiron = null
     random === 0 ? directiron = "V" : directiron = "H"
     return directiron
 } 
 
-const ShipDirectionAdder = (ShipArray) => {    
+const addShipDirection = (ShipArray) => {    
     for (let i = 0; i<ShipArray.length; i++) {
-        ShipArray[i].ShipDirection = ShipDirectionRandomser()
+        ShipArray[i].ShipDirection = randomiseShipDirection()
     }
     return ShipArray
 }
 
-const fillCpuBoard = (ShipArray, cpuBoard) => {
-    ShipArray = ShipDirectionAdder(ShipArray)
+const findStartPoint = (ShipArray) => {
+    let startPoint = null
     
+}
+
+const fillCpuBoard = (ShipArray, cpuBoard) => {
+    ShipArray = addShipDirection(ShipArray)
+    ShipArray.forEach(ship => {
+        let startPoint = findStartPoint(ship)
+
+    });
 }
 
 const userBoard = createBoardArray(width)
