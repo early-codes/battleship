@@ -1,8 +1,10 @@
-import Ship from '../Ship/Ship'
-import ShipArray from '../Ship/ShipData'
+import Ship from '../Ship/Ship.js'
+import ShipArray from '../Ship/ShipData.js'
 
-let userBoard = []
-let cpuBoard = []
+
+const width = 10
+const dragWidth = 5
+const dragHeight = 10
 
 
 const createBoardArray = (width) => {
@@ -13,16 +15,32 @@ const createBoardArray = (width) => {
     return boardArray;
 }
 
-const createUserBoard = () => {
-    userBoard = createBoardArray(10);
-    return userBoard;
+const createDragBoard = (dragWidth, dragHeight) => {
+    let boardArray = [];
+    for (let i = 0; i < dragHeight * dragWidth; i++) {
+        boardArray.push("O");
+    }
+    return boardArray
 }
 
-const createCpuBoard = () => {
-    cpuBoard = createBoardArray(10);
-    return cpuBoard;
+const fillDragBoard = (ShipArray, dragBoard) => {
+    let filledDragBoard = [...dragBoard]
+    for (let i = 0; i < ShipArray.length; i++) {
+        console.log()
+        for (let j = 0; j < parseInt(ShipArray[i].shipLength); j++) {
+            console.log(j)
+            filledDragBoard[(i * 5) + j] = "+"
+        }
+    }
+    console.log(filledDragBoard)
+    return filledDragBoard
 }
 
 
+const userBoard = createBoardArray(width)
+const cpuBoard = createBoardArray(width)
+const dragBoard = createDragBoard(dragHeight, dragWidth)
+const filledDragBoard = fillDragBoard(ShipArray, dragBoard)
 
-export { createBoardArray, createUserBoard, createCpuBoard }
+
+export { createBoardArray, userBoard, cpuBoard, dragBoard, filledDragBoard }

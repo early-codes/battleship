@@ -6,8 +6,8 @@ const Ship = (Length) => {
         shipBody[i] = "+"
     }
 
-    const hit = (mark) => {
-        shipBody[mark] = "X"
+    const hit = (cell) => {
+        shipBody[cell] = "X"
     }
 
     const isSunk = () => {
