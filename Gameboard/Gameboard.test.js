@@ -18,7 +18,7 @@ test("drag board created with 50 elements", () => {
 })
 
 test(" filled drag board specific members test 1", () => {
-    expect(filledDragBoard.filter(x => x == "+").length).toBeGreaterThan(5)
+    expect(filledDragBoard.filter(x => x === "+").length).toBe(20)
 })
 
 test(" filled drag board specific members test 2", () => {
