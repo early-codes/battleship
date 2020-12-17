@@ -1,0 +1,37 @@
+header {
+    width: 1300px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.playBoards {
+    margin: 100px auto;
+    text-align: center;
+}
+
+.userBoard {
+    position: absolute;
+    height: 400px;
+    width: 400px;
+    background-color: blue;
+    left: 400px;
+    top: 100px;
+}
+
+.cpuBoard {
+    position: absolute;
+    height: 400px;
+    width: 400px;
+    background-color: blue;
+    left: 1000px;
+    top: 100px;
+}
+
+.dragBoard {
+    position: absolute;
+    height: 400px;
+    width: 200px;
+    background-color: burlywood;
+    left: 400px;
+    top: 550px;
+}

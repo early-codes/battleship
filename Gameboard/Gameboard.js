@@ -34,6 +34,7 @@ const fillDragBoard = (ShipArray, dragBoard) => {
 const randomiseShipDirection = (ship) => {
     let random = Math.abs(Math.floor(Math.random() * 2))
     let directiron = null
+    //V for vertical H for horizontal
     random === 0 ? directiron = "V" : directiron = "H"
     return directiron
 } 
@@ -46,12 +47,12 @@ const addShipDirection = (ShipArray) => {
 }
 
 const findStartPoint = (ship, cpuBoard) => {
-    let startPoint = null
+    let startPoint = 51
     let verticalPoint = null
     let horizontalPoint = null
     if (ship.ShipDirection === "H") {
-        verticalPoint = Math.floor(Math.random() * (11 - ship.shipLength))
-        horizontalPoint = Math.floor(Math.random() * 10)
+        verticalPoint = Math.floor(Math.random() * 10)
+        horizontalPoint = Math.floor(Math.random() * (11 - ship.shipLength))
         startPoint = (verticalPoint * 10) + horizontalPoint
         for (let i = 0; i < ship.shipLength; i++) {
             if (cpuBoard[startPoint + i].includes("T")) {
@@ -60,8 +61,8 @@ const findStartPoint = (ship, cpuBoard) => {
             }
         }
     } else {
-        verticalPoint = Math.floor(Math.random() * 10)
-        horizontalPoint = Math.floor(Math.random() * (11 - ship.shipLength))
+        verticalPoint = Math.floor(Math.random() * (11 - ship.shipLength))
+        horizontalPoint = Math.floor(Math.random() * 10)
         startPoint = (verticalPoint * 10) + horizontalPoint
         for (let i = 0; i < ship.shipLength; i++) {
             if (cpuBoard[startPoint + (i * 10)].includes("T")) {
@@ -70,7 +71,7 @@ const findStartPoint = (ship, cpuBoard) => {
             }
         }
     }
-    return ((startPoint) ? startPoint : findStartPoint(ship) )
+    return ((startPoint) ? startPoint : findStartPoint(ship, cpuBoard) )
 
 }
 
@@ -78,7 +79,18 @@ const fillCpuBoard = (ShipArray, cpuBoard) => {
     ShipArray = addShipDirection(ShipArray)
     ShipArray.forEach(ship => {
         let startPoint = findStartPoint(ship, cpuBoard)
+        if (ship.ShipDirection === "H") {
+            for (let i = 0; i < ship.shipLength; i++) {
+                //T for taken
+                cpuBoard[startPoint + i] = "T"
+            }
+        } else {
+            for (let i = 0; i < ship.shipLength; i++) {
+                cpuBoard[startPoint + ( 10 * i )] = "T"
+            }
+        }
     });
+    return (cpuBoard)
 }
 
 const userBoard = createBoardArray(width)
@@ -88,4 +100,4 @@ const filledDragBoard = fillDragBoard(ShipArray, dragBoard)
 const filledCpuBoard = fillCpuBoard(ShipArray, cpuBoard)
 
 
-export { createBoardArray, userBoard, cpuBoard, dragBoard, filledDragBoard, findStartPoint }
+export { createBoardArray, userBoard, cpuBoard, dragBoard, filledDragBoard, findStartPoint, filledCpuBoard }
