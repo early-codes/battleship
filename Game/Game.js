@@ -5,7 +5,6 @@ const userBoardUI = document.querySelector('.userBoard')
 const cpuBoardUI = document.querySelector('.cpuBoard')
 const dragBoardUI = document.querySelector('.dragBoard')
 
-console.log("ben geldim")
 
 const boardUICreater = (boardToCreate, boardArray) => {
     for (let i = 0 ; i < boardArray.length; i++) {  
