@@ -50,10 +50,12 @@ const findStartPoint = (ship, cpuBoard) => {
     let startPoint = 51
     let verticalPoint = null
     let horizontalPoint = null
+    let k = 0
     if (ship.ShipDirection === "H") {
         verticalPoint = Math.floor(Math.random() * 10)
         horizontalPoint = Math.floor(Math.random() * (11 - ship.shipLength))
         startPoint = (verticalPoint * 10) + horizontalPoint
+        
         for (let i = 0; i < ship.shipLength; i++) {
             if (cpuBoard[startPoint + i].includes("T")) {
                 startPoint = null
@@ -61,12 +63,6 @@ const findStartPoint = (ship, cpuBoard) => {
             }
             if ((startPoint + i) < 99) {
                 if (cpuBoard[startPoint + i + 1].includes("T")) {
-                    startPoint = null
-                    break
-                }
-            }
-            if ((startPoint + i) > 0) {
-                if (cpuBoard[startPoint + i - 1].includes("T")) {
                     startPoint = null
                     break
                 }
@@ -94,33 +90,24 @@ const findStartPoint = (ship, cpuBoard) => {
                 break
             }
             if ((startPoint + (i * 10)) < 99) {
-                console.log(startPoint, (startPoint + i), cpuBoard[startPoint + i + 1]);
                 if (cpuBoard[startPoint + (i * 10) + 1].includes("T")) {
                     startPoint = null
                     break
                 }
             }
             if ((startPoint + (i * 10)) > 0) {
-                console.log(startPoint, (startPoint + i), cpuBoard[startPoint + i + 1]);
                 if (cpuBoard[startPoint + (i * 10) - 1].includes("T")) {
                     startPoint = null
                     break
                 }
             }
             if ((startPoint + (i * 10)) < 90) {
-                console.log(startPoint, (startPoint + i), cpuBoard[startPoint + i + 1]);
                 if (cpuBoard[startPoint + (i * 10) + 10].includes("T")) {
                     startPoint = null
                     break
                 }
             }
-            if ((startPoint + (i * 10)) > 9) {
-                console.log(startPoint, (startPoint + i), cpuBoard[startPoint + i + 1]);
-                if (cpuBoard[startPoint + (i * 10) - 10].includes("T")) {
-                    startPoint = null
-                    break
-                }
-            }
+          
         }
     }
     return ((startPoint) ? startPoint : findStartPoint(ship, cpuBoard))
