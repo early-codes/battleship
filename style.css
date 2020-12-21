@@ -48,58 +48,47 @@ header {
     background-color: blue;
 }
 
+.dragBoardTaken {
+    background-color: brown;
+}
+
 .free {
-    background-color: blue;
+    
 }
 
 .taken {
-    background-color: coral;
+    
 }
 
 @media only screen and (max-width: 800px) {
 
     header {
         width: 700px;
-        margin: 0 auto;
-        text-align: center;
     }
 
     .playBoards {
         margin: 20px auto;
-        text-align: center;
     }
     
     .userBoard {
-        position: absolute;
         height: 200px;
         width: 200px;
-        background-color: black;
         left: 100px;
         top: 100px;
-        display: flex;
-        flex-wrap: wrap;
     }
     
     .cpuBoard {
-        position: absolute;
         height: 200px;
         width: 200px;
-        background-color: black;
         left: 400px;
         top: 100px;
-        display: flex;
-        flex-wrap: wrap;
         }
     
     .dragBoard {
-        position: absolute;
         height: 200px;
         width: 100px;
-        background-color: burlywood;
         left: 100px;
         top: 350px;
-        display: flex;
-        flex-wrap: wrap;
     }
     
     .square {

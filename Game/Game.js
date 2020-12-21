@@ -13,8 +13,12 @@ const boardUICreater = (boardToCreate, boardArray) => {
         square.id = i
         if (boardArray[i] === "O") {    
             square.classList.add("free")
-        } else if (boardArray[i] ) {
+        } else if (boardArray[i] === "T") {
             square.classList.add("taken")
+        } else if (boardArray[i].includes("+")) {
+            square.classList.add("dragBoardTaken")
+            square.classList.add(boardArray[i].split("+|")[0])
+            square.classList.add(boardArray[i].split("+|")[1])
         }
         boardToCreate.appendChild(square)
     }

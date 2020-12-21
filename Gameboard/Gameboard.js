@@ -24,8 +24,10 @@ const createDragBoard = (dragWidth, dragHeight) => {
 
 const fillDragBoard = (ShipArray, dragBoard) => {
     for (let i = 0; i < ShipArray.length; i++) {
+        let shipPoint = 1
         for (let j = 0; j < parseInt(ShipArray[i].shipLength); j++) {
-            dragBoard[(i * 5) + j] = "+"
+            dragBoard[(i * 5) + j] = ShipArray[i].shipName + "\+" + "|" + shipPoint + "/" + ShipArray[i].shipLength
+            shipPoint++
         }
     }
     return dragBoard
