@@ -10,20 +10,50 @@ document.addEventListener("dragover", (event) => {
   });
 
 const dragger = (event) => {
-    const shipToDrag = document.querySelectorAll("." + event.srcElement.classList[2]);
-    console.log(shipToDrag[0]);
     event.dataTransfer.setData("ship", event.srcElement.classList[2])
+}
+
+const dragBoardUICleaner = (shipName) => {
+    ([...dragBoardUI.children]).forEach(squareToChange => {
+        (squareToChange.classList[2] === (shipName)) ?
+            squareToChange.classList = dragBoardUI.children[4].classList :
+            null
+    })
+} 
+
+const dropableCheck = (shipLength, id) => {
+    let ifDropable = true
+    for (let i = 0; i < shipLength; i++) {
+        if (document.getElementById((+id) + (+i)).classList[1].toString() === "dragBoardTaken" || ((+id % 10) + (+i)) > 9 ) {
+            ifDropable = false
+            break
+        } 
+    } 
+    return ifDropable
+}
+
+const rotate = (event) => {
+    let shipName = event.target.classList[2].toString()
+    let ship = document.querySelectorAll("." + shipName)
+    
 }
 
 const dropper = (event) => {
     event.preventDefault();
     var data = event.dataTransfer.getData("ship");
-    console.log(data, event.target)
     const shipLength = document.querySelectorAll("." + data).length;
-    for (let i = 0; i < shipLength; i++) {
-        let id  = event.target.id
-        document.getElementById((+id) + (+i)).className = ((document.querySelectorAll("." + data)[i].className))
+    let dropable = false
+    dropable = dropableCheck(shipLength, event.target.id)
+    if (dropable) {
+        for (let i = 0; i < shipLength; i++) {
+            let id  = event.target.id
+            document.getElementById((+id) + (+i)).className = ((document.querySelectorAll("." + data))[+i].className)
+            console.log(document.querySelectorAll("corvette-1") ,data, (document.querySelectorAll("." + data))[+i], i);
+            document.getElementById((+id) + (+i)).addEventListener("dblclick", rotate)
+        } 
+    dragBoardUICleaner(data) 
     }
+    
 }
 
 const boardUICreater = (boardToCreate, boardArray, boardName) => {
