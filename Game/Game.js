@@ -1,5 +1,5 @@
 
-import {userBoard, cpuBoard, filledDragBoard, filledCpuBoard} from '../Gameboard/Gameboard.js'
+import { userBoard, cpuBoard, filledDragBoard, filledCpuBoard } from '../Gameboard/Gameboard.js'
 
 const userBoardUI = document.querySelector('.userBoard')
 const cpuBoardUI = document.querySelector('.cpuBoard')
@@ -7,7 +7,7 @@ const dragBoardUI = document.querySelector('.dragBoard')
 
 document.addEventListener("dragover", (event) => {
     event.preventDefault();
-  });
+});
 
 const dragger = (event) => {
     event.dataTransfer.setData("ship", event.srcElement.classList[2])
@@ -19,23 +19,34 @@ const dragBoardUICleaner = (shipName) => {
             squareToChange.classList = dragBoardUI.children[4].classList :
             null
     })
-} 
+}
 
 const dropableCheck = (shipLength, id) => {
     let ifDropable = true
     for (let i = 0; i < shipLength; i++) {
-        if (document.getElementById((+id) + (+i)).classList[1].toString() === "dragBoardTaken" || ((+id % 10) + (+i)) > 9 ) {
+        if (document.getElementById((+id) + (+i)).classList[1].toString() === "userBoardTaken" || ((+id % 10) + (+i)) > 9) {
             ifDropable = false
             break
-        } 
-    } 
+        }
+    }
     return ifDropable
 }
 
 const rotate = (event) => {
     let shipName = event.target.classList[2].toString()
     let ship = document.querySelectorAll("." + shipName)
-    
+    console.log(ship);
+    if (!ship[0].className.includes("horizontal")) {
+        for (let i = 1; i < ship.length; i++) {
+            userBoardUI.childNodes[ship[i].id].className = ("free" + " " + "square")
+            userBoardUI.childNodes[(ship[i].id - i) + (i * 10)].className = ("userBoardTaken" + " " + "square" + " " + shipName + " " + "horizontal" + " " + (i + 1) + "/" + ship.length)
+        }
+    } else {
+        for (let i = 1; i < ship.length; i++) {
+            userBoardUI.childNodes[(ship[i].id - i) + (i * 10)].className = ("userBoardTaken" + " " + "square" + " " + shipName + " " + (i + 1) + "/" + ship.length)
+            userBoardUI.childNodes[ship[i].id].className = ("free" + " " + "square")
+        }
+    }
 }
 
 const dropper = (event) => {
@@ -46,22 +57,26 @@ const dropper = (event) => {
     dropable = dropableCheck(shipLength, event.target.id)
     if (dropable) {
         for (let i = 0; i < shipLength; i++) {
-            let id  = event.target.id
-            document.getElementById((+id) + (+i)).className = ((document.querySelectorAll("." + data))[+i].className)
-            console.log(document.querySelectorAll("corvette-1") ,data, (document.querySelectorAll("." + data))[+i], i);
-            document.getElementById((+id) + (+i)).addEventListener("dblclick", rotate)
-        } 
-    dragBoardUICleaner(data) 
+            let id = event.target.id
+            console.log(event.target)
+            const square = document.getElementById((+id) + (+i))
+            square.className = "square"
+            square.classList.add("userBoardTaken")
+            square.classList.add(data)
+            square.classList.add((+i + 1) + "/" + shipLength)
+            square.addEventListener("dblclick", rotate)
+        }
+        dragBoardUICleaner(data)
     }
-    
+
 }
 
 const boardUICreater = (boardToCreate, boardArray, boardName) => {
-    for (let i = 0 ; i < boardArray.length; i++) {  
-        const square = document.createElement('div') 
-        square.className = "square" 
+    for (let i = 0; i < boardArray.length; i++) {
+        const square = document.createElement('div')
+        square.className = "square"
         square.id = i
-        if (boardArray[i] === "O") {    
+        if (boardArray[i] === "O") {
             square.classList.add("free")
             if (boardName === "userBoard") {
                 square.addEventListener("drop", dropper)
