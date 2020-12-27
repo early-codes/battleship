@@ -32,20 +32,28 @@ const dropableCheck = (shipLength, id) => {
     return ifDropable
 }
 
+const rotatableCheck = (ship) => {
+    
+}
+
 const rotate = (event) => {
     let shipName = event.target.classList[2].toString()
     let ship = document.querySelectorAll("." + shipName)
-    console.log(ship);
+    let rotatable = false
+    rotateable = rotatableCheck(ship)
     if (!ship[0].className.includes("horizontal")) {
         for (let i = 1; i < ship.length; i++) {
             userBoardUI.childNodes[ship[i].id].className = ("free" + " " + "square")
-            userBoardUI.childNodes[(ship[i].id - i) + (i * 10)].className = ("userBoardTaken" + " " + "square" + " " + shipName + " " + "horizontal" + " " + (i + 1) + "/" + ship.length)
+            userBoardUI.childNodes[(ship[i].id - i) + (i * 10)].className = ("userBoardTaken" + " " + "square" + " " + shipName + " " + (i + 1) + "/" + ship.length)
         }
+        ship[0].classList.toggle("horizontal")
     } else {
         for (let i = 1; i < ship.length; i++) {
-            userBoardUI.childNodes[(ship[i].id - i) + (i * 10)].className = ("userBoardTaken" + " " + "square" + " " + shipName + " " + (i + 1) + "/" + ship.length)
+            console.log((ship[i].id + (+i)))
+            userBoardUI.childNodes[(+ship[i].id + (+i)) - ((+i) * 10)].className = ("userBoardTaken" + " " + "square" + " " + shipName + " " + (i + 1) + "/" + ship.length)
             userBoardUI.childNodes[ship[i].id].className = ("free" + " " + "square")
         }
+        ship[0].classList.toggle("horizontal")
     }
 }
 
