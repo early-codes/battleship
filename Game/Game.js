@@ -1,9 +1,9 @@
-
 import { userBoard, cpuBoard, filledDragBoard, filledCpuBoard } from '../Gameboard/Gameboard.js'
 
 const userBoardUI = document.querySelector('.userBoard')
 const cpuBoardUI = document.querySelector('.cpuBoard')
 const dragBoardUI = document.querySelector('.dragBoard')
+const startButton = document.getElementById("startButton")
 
 document.addEventListener("dragover", (event) => {
     event.preventDefault();
@@ -33,27 +33,44 @@ const dropableCheck = (shipLength, id) => {
 }
 
 const rotatableCheck = (ship) => {
-    
+    let rotatable = true
+    if (ship[0].className.includes("vertical")) {
+        for (let i = 1; i < ship.length; i++) {
+            if (userBoardUI.childNodes[+(ship[0].id) + +i].className.includes("userBoardTaken")) {
+                rotatable = false
+                break;
+            }
+        }
+    } else {
+        for (let i = 1; i < ship.length; i++) {
+            if (userBoardUI.childNodes[+(ship[0].id) + (+i * 10)].className.includes("userBoardTaken")) {
+                rotatable = false
+                break;
+            }
+        }
+    }
+    return rotatable
 }
 
 const rotate = (event) => {
     let shipName = event.target.classList[2].toString()
     let ship = document.querySelectorAll("." + shipName)
     let rotatable = false
-    rotateable = rotatableCheck(ship)
-    if (!ship[0].className.includes("horizontal")) {
-        for (let i = 1; i < ship.length; i++) {
-            userBoardUI.childNodes[ship[i].id].className = ("free" + " " + "square")
-            userBoardUI.childNodes[(ship[i].id - i) + (i * 10)].className = ("userBoardTaken" + " " + "square" + " " + shipName + " " + (i + 1) + "/" + ship.length)
+    rotatable = rotatableCheck(ship)
+    if (rotatable) {
+        if (!ship[0].className.includes("vertical")) {
+            for (let i = 1; i < ship.length; i++) {
+                userBoardUI.childNodes[ship[i].id].className = ("free" + " " + "square")
+                userBoardUI.childNodes[(ship[i].id - i) + (i * 10)].className = ("userBoardTaken" + " " + "square" + " " + shipName + " " + (i + 1) + "/" + ship.length)
+            }
+            ship[0].classList.toggle("vertical")
+        } else {
+            for (let i = 1; i < ship.length; i++) {
+                userBoardUI.childNodes[(+ship[i].id + (+i)) - ((+i) * 10)].className = ("userBoardTaken" + " " + "square" + " " + shipName + " " + (i + 1) + "/" + ship.length)
+                userBoardUI.childNodes[ship[i].id].className = ("free" + " " + "square")
+            }
+            ship[0].classList.toggle("vertical")
         }
-        ship[0].classList.toggle("horizontal")
-    } else {
-        for (let i = 1; i < ship.length; i++) {
-            console.log((ship[i].id + (+i)))
-            userBoardUI.childNodes[(+ship[i].id + (+i)) - ((+i) * 10)].className = ("userBoardTaken" + " " + "square" + " " + shipName + " " + (i + 1) + "/" + ship.length)
-            userBoardUI.childNodes[ship[i].id].className = ("free" + " " + "square")
-        }
-        ship[0].classList.toggle("horizontal")
     }
 }
 
@@ -66,7 +83,6 @@ const dropper = (event) => {
     if (dropable) {
         for (let i = 0; i < shipLength; i++) {
             let id = event.target.id
-            console.log(event.target)
             const square = document.getElementById((+id) + (+i))
             square.className = "square"
             square.classList.add("userBoardTaken")
@@ -102,6 +118,17 @@ const boardUICreater = (boardToCreate, boardArray, boardName) => {
     }
 }
 
+const gamePlay = () => {
+    let dragBoardEmpty = +[...dragBoardUI.childNodes].filter(square => square.className.includes("dragBoardTaken")).length === +0
+    let userBoardFull = +[...userBoardUI.childNodes].filter(square => square.className.includes("userBoardTaken")).length === +20
+    if (userBoardFull && dragBoardEmpty) {
+
+    } else {
+        alert("Please Place (Drag & Drop Ships, Double Click to Rotate) All Your Ships")
+    }
+}
+
+startButton.addEventListener("click", gamePlay)
 
 
 boardUICreater(userBoardUI, userBoard, "userBoard")

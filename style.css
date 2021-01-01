@@ -15,7 +15,7 @@ header {
     width: 400px;
     background-color: black;
     left: 400px;
-    top: 100px;
+    top: 120px;
     display: flex;
     flex-wrap: wrap;
 }
@@ -26,7 +26,7 @@ header {
     width: 400px;
     background-color: black;
     left: 1000px;
-    top: 100px;
+    top: 120px;
     display: flex;
     flex-wrap: wrap;
 }
@@ -56,14 +56,6 @@ header {
     background-color: brown;
 }
 
-.free {
-    
-}
-
-.taken {
-    
-}
-
 @media only screen and (max-width: 800px) {
 
     header {
@@ -78,14 +70,12 @@ header {
         height: 200px;
         width: 200px;
         left: 100px;
-        top: 100px;
     }
     
     .cpuBoard {
         height: 200px;
         width: 200px;
         left: 400px;
-        top: 100px;
         }
     
     .dragBoard {
