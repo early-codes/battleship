@@ -1,12 +1,13 @@
 import { userBoard, cpuBoard, filledDragBoard, filledCpuBoard } from '../Gameboard/Gameboard.js'
 
-//user ve cpu aynı kareyi seçebiliyor
-//reset mantığı?
 
 const userBoardUI = document.querySelector('.userBoard')
 const cpuBoardUI = document.querySelector('.cpuBoard')
 const dragBoardUI = document.querySelector('.dragBoard')
 const startButton = document.getElementById("startButton")
+const resetButton = document.getElementById("resetButton")
+
+let selectedSquaresArray = []
 let gameOn = false
 let userHit = 0
 let cpuHit = 0
@@ -118,37 +119,42 @@ const checkEnd = () => {
 }
 
 const cpuPlay = () => {
-    let selectedSquaresArray = []
+
     if (!userTurn) {
-        let cpuSelect = (Math.floor(Math.random()*100))
-        while(selectedSquaresArray.includes(cpuSelect)) {
+        let cpuSelect = (Math.floor(Math.random() * 100))
+        console.log(cpuSelect, selectedSquaresArray)
+        while (selectedSquaresArray.includes(cpuSelect)) {
             console.log("while in", cpuSelect);
-            cpuSelect = (Math.floor(Math.random()*100))
+            cpuSelect = (Math.floor(Math.random() * 100))
             console.log("while Out", cpuSelect);
         }
-        if (userBoardUI.childNodes[cpuSelect].className.includes("userBoardTaken")) {
-            userBoardUI.childNodes[cpuSelect].classList.add("userBoardHit")
-            cpuHit += 1
-            checkEnd()
-        } else {
-            userBoardUI.childNodes[cpuSelect].classList.add("userBoardMiss")
+        if (!userBoardUI.childNodes[cpuSelect].className.includes("userBoardHit") && !userBoardUI.childNodes[cpuSelect].className.includes("userBoardMiss")) {
+            if (userBoardUI.childNodes[cpuSelect].className.includes("userBoardTaken")) {
+                userBoardUI.childNodes[cpuSelect].classList.add("userBoardHit")
+                cpuHit += 1
+                checkEnd()
+            } else {
+                userBoardUI.childNodes[cpuSelect].classList.add("userBoardMiss")
+            }
         }
         selectedSquaresArray.push(cpuSelect)
-        userTurn=true
+        userTurn = true
     }
 }
 
 const cpuSquareClicked = (event) => {
-    if(gameOn && userTurn) {
-        if (event.target.className.includes("taken")) {
-            event.target.classList.add("cpuBoardHit")
-            userHit += 1
-            checkEnd()
-        } else {
-            event.target.classList.add("cpuBoardMiss")
+    if (gameOn && userTurn) {
+        if (!event.target.className.includes("cpuBoardHit") && !event.target.className.includes("cpuBoardMiss")) {
+            if (event.target.className.includes("taken")) {
+                event.target.classList.add("cpuBoardHit")
+                userHit += 1
+                checkEnd()
+            } else {
+                event.target.classList.add("cpuBoardMiss")
+            }
+            userTurn = false
+            cpuPlay()
         }
-    userTurn = false
-    cpuPlay()
     }
 }
 
@@ -191,7 +197,13 @@ const gamePlay = () => {
     }
 }
 
+const resetGame = () => {
+    location.reload()
+}
+
 startButton.addEventListener("click", gamePlay)
+
+resetButton.addEventListener("click", resetGame)
 
 
 boardUICreater(userBoardUI, userBoard, "userBoard")
